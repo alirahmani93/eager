@@ -1,0 +1,36 @@
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from time import perf_counter
+counter = 100000000
+def a():
+    result = 0
+    for i in range(counter):
+        result += i / 1000
+
+    return f'a= {result}'
+
+
+def b():
+    result = 0
+    for i in range(counter):
+        result += i / 100
+
+    return f'b= {result}'
+
+
+tasks = [a, b]
+
+with ThreadPoolExecutor(max_workers=2) as executor:
+    futures = [executor.submit(func) for func in tasks]
+    start_time = perf_counter()
+    for future in as_completed(futures):
+        end_time = perf_counter()
+        print(future.result(), 'time= ', end_time - start_time)
+
+
+start_time = perf_counter()
+r1=a()
+end_time = perf_counter()
+print(r1, 'time= ', end_time - start_time)
+r2=b()
+end_time = perf_counter()
+print(r2, 'time= ', end_time - start_time)
