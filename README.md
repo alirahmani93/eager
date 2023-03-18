@@ -1,2 +1,4 @@
-# eger_openCv
-have some fun code with OpenCV
+# Eager
+
+Some test projects or scripts 
+
